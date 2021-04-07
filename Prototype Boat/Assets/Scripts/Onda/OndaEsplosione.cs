@@ -5,24 +5,35 @@ using UnityEngine;
 public class OndaEsplosione : Onda
 {
     public int danni;
-    private CircleCollider2D c2d;
+    private SphereCollider c2d;
     protected override void Start()
     {
-        c2d = GetComponent<CircleCollider2D>();
+        c2d = GetComponent<SphereCollider>();
         base.Start();
-       
+        ps=this.GetComponent<ParticleSystem>();
+  
     }
     protected override void ComeMiMuovo()
     {
         transform.localScale = Vector3.one * (spazio_percorso * 2);
     }
 
-    protected override void OnTriggerEnter2D(Collider2D collision)
+    protected override void OnTriggerEnter(Collider collision)
     {
-        base.OnTriggerEnter2D(collision);
-        if(collision.GetComponent<Corpo>()!= null)
+        if (!collision.isTrigger)
         {
-            collision.GetComponent<Corpo>().SubiscoDanni(danni);
+            base.OnTriggerEnter(collision);
+            if (collision.GetComponent<Corpo>() != null)
+            {
+                collision.GetComponent<Corpo>().SubiscoDanni(danni);
+            }
+            if (collision.transform.parent != null)
+            {
+                if (collision.transform.parent.GetComponent<Corpo>() != null)
+                {
+                    collision.transform.parent.GetComponent<Corpo>().SubiscoDanni(danni);
+                }
+            }
         }
     }
 
@@ -35,4 +46,6 @@ public class OndaEsplosione : Onda
                 dirOnda = -rb2d[i].transform.right;
         }
     }
+
+   
 }

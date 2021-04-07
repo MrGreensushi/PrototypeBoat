@@ -5,7 +5,7 @@ using UnityEngine;
 public class TrovaBersaglio : MonoBehaviour
 {
     public float raggioesplosione;
-    public CircleCollider2D c2d;
+    //public SphereCollider c2d;
     public Vector3 pos_bersaglio;
     public float tempo_prima_di_sparare;
     public GameObject pro;
@@ -13,9 +13,10 @@ public class TrovaBersaglio : MonoBehaviour
     private GameObject bersaglio;
     private GameObject esplosione;
     public GameObject reticolo;
+    public float ricarica;
     private GameObject ret;
 
-    protected void OnTriggerEnter2D(Collider2D collision)
+    protected void OnTriggerEnter(Collider collision)
     {
         if (collision.gameObject.GetComponent<Movimentonuovo>() != null)
         {
@@ -25,7 +26,7 @@ public class TrovaBersaglio : MonoBehaviour
         }
     }
 
-    protected void OnTriggerExit2D(Collider2D collision)
+    protected void OnTriggerExit(Collider collision)
     {
         if (collision.gameObject.GetComponent<Movimentonuovo>() != null)
             sparo = false;
@@ -38,8 +39,9 @@ public class TrovaBersaglio : MonoBehaviour
             pos_bersaglio = bersaglio.transform.position;
             ret=Instantiate(reticolo, pos_bersaglio, Quaternion.identity);
             yield return new WaitForSeconds(tempo_prima_di_sparare);
-            esplosione= Instantiate(pro, pos_bersaglio, Quaternion.identity);
+            esplosione= Instantiate(pro, pos_bersaglio+ new Vector3(0,1,0), Quaternion.identity);
             esplosione.GetComponent<Onda>().distanzaprimadimorire = raggioesplosione;
+            yield return new WaitForSeconds(ricarica);
             Destroy(ret);
         }
         if (ret != null)

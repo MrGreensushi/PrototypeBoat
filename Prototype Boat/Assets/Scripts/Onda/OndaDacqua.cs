@@ -4,11 +4,11 @@ using UnityEngine;
 
 public class OndaDacqua : Onda
 {
-    private PolygonCollider2D pc2d;
+    private MeshCollider pc2d;
 
     protected override void Start()
     {
-        pc2d = GetComponent<PolygonCollider2D>();
+       // pc2d = GetComponent<MeshCollider>();
         base.Start();
     }
     protected override void ComeMiMuovo()
@@ -22,7 +22,7 @@ public class OndaDacqua : Onda
         
     }
 
-    protected override void OnTriggerEnter2D(Collider2D collision)
+    protected override void OnTriggerEnter(Collider collision)
     {
        
         if (collision.gameObject.GetComponent<TerraFerma>() != null)
@@ -30,7 +30,7 @@ public class OndaDacqua : Onda
            
             Destroy(gameObject);
         }
-        base.OnTriggerEnter2D(collision);
+        base.OnTriggerEnter(collision);
        
     }
 }

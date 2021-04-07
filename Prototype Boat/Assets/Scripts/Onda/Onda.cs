@@ -8,43 +8,65 @@ public abstract class Onda : MonoBehaviour
     public float velOnda;
     public float forzaOnda;
     protected Vector3 dirOnda;
-    protected List<Rigidbody2D> rb2d;
+    protected List<Rigidbody> rb2d;
     protected float spazio_percorso;
     protected int i;
+    protected ParticleSystem ps;
+    protected bool devoMorire;
   
     // Start is called before the first frame update
     protected virtual void  Start()
     {
-        rb2d = new List<Rigidbody2D>();
-        dirOnda = transform.up;
+        devoMorire = false;
+        rb2d = new List<Rigidbody>();
+        dirOnda = transform.forward;
         StartCoroutine(Movimento());        
     }
 
 
     protected void FixedUpdate()
     {
-        if (rb2d.Count != 0)
+        if (!devoMorire)
         {
-            i = 0;
-            foreach (Rigidbody2D el in rb2d)
+            if (rb2d.Count != 0)
             {
-                CalcoloDirezione();
-                el.AddForce(dirOnda * forzaOnda);
-                i++;
+                i = 0;
+                foreach (Rigidbody el in rb2d)
+                {
+                    CalcoloDirezione();
+                    el.AddForce(dirOnda * forzaOnda);
+                    i++;
+                }
             }
         }
     }
 
-    protected virtual void  OnTriggerEnter2D(Collider2D collision)
+    protected virtual void  OnTriggerEnter(Collider collision)
     {
-        rb2d.Add( collision.gameObject.GetComponent<Rigidbody2D>());
+        if (!collision.isTrigger)
+        {
+            if (collision.gameObject.GetComponent<Rigidbody>() != null)
+            {
+                rb2d.Add(collision.gameObject.GetComponent<Rigidbody>());
+            }
+            else if (collision.gameObject.GetComponentInParent<Rigidbody>() != null)
+            {
+                rb2d.Add(collision.gameObject.GetComponentInParent<Rigidbody>());
+            }
+            else if (collision.gameObject.GetComponentInChildren<Rigidbody>() != null)
+            {
+                rb2d.Add(collision.gameObject.GetComponentInChildren<Rigidbody>());
+            }
+        }
+        
     }
 
 
 
-    protected virtual void OnTriggerExit2D(Collider2D collision)
+    protected virtual void OnTriggerExit(Collider collision)
     {
-        rb2d.Remove(collision.gameObject.GetComponent<Rigidbody2D>());
+        if(!collision.isTrigger)
+        rb2d.Remove(collision.gameObject.GetComponent<Rigidbody>());
     }
 
     protected IEnumerator Movimento()
@@ -55,7 +77,20 @@ public abstract class Onda : MonoBehaviour
             spazio_percorso += velOnda * Time.deltaTime;
             ComeMiMuovo();
         }
-        Destroy(gameObject);
+        devoMorire = true;
+        if (ps==null)
+            Destroy(gameObject);
+        else
+        {
+            while (ps.isPlaying) {
+                yield return new WaitForFixedUpdate();
+
+            }
+            Destroy(gameObject);
+        }
+            
+
+
     }
 
     protected abstract void ComeMiMuovo();

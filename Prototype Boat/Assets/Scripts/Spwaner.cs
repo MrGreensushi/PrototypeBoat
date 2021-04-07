@@ -9,27 +9,32 @@ public class Spwaner : MonoBehaviour
     public float tempoDiSpawn;
     private Camera mainCamera;
     protected Vector3 vicinanza;
-    private Vector3 puntoPiuVicino;
-    private PolygonCollider2D pg;
+    public Vector3 puntoPiuVicino;
+    private MeshCollider pg;
     private bool puoiSpawnare;
-    protected float min_x, min_y, max_x, max_y;
+    protected float min_x, min_z, max_x, max_z;
+    private GameObject giocatore;
 
     private void Start()
     {
         puoiSpawnare = false;
-        pg = GetComponent<PolygonCollider2D>();
+        pg = GetComponent<MeshCollider>();
         mainCamera = GameObject.FindObjectOfType<Camera>();
+        giocatore = GameObject.FindObjectOfType<Movimentonuovo>().gameObject;
         MineMaxXFromCollider();
         MineMaxYfromCollider();
+        Debug.Log("Max x:" + max_x+" Max z: " +max_z+ " Min x " +min_x + " min z: " +min_z);
     }
     private void Update()
     {
-        puntoPiuVicino = pg.ClosestPoint(mainCamera.transform.position);
+        puntoPiuVicino = pg.ClosestPoint(giocatore.transform.position);
         vicinanza = mainCamera.WorldToViewportPoint(puntoPiuVicino);
+       
         if (vicinanza.x > 0 && vicinanza.y > 0 && vicinanza.x < 1 && vicinanza.y < 1)
         {
             if (!puoiSpawnare)
             {
+               
                 puoiSpawnare = true;
                 StartCoroutine(Spawna());
             }
@@ -53,17 +58,31 @@ public class Spwaner : MonoBehaviour
 
     protected Vector3 DoveSpawnare()
     {
-        float x, y;
+        float x, z;
         Vector3 punto = new Vector3();
         Vector3 controllo = new Vector3();
         int n = 0; ;
         while (n<1000)
         {
-            x = Random.Range(transform.position.x+ min_x, transform.position.x + max_x);
-            y = Random.Range(transform.position.y + min_y, transform.position.y + max_y);
-            punto = new Vector2(x, y);
+            x = Random.Range( min_x, max_x);
+            z = Random.Range( min_z, max_z);
+            punto = new Vector3(x,0,z);
             
-            if (pg.OverlapPoint(punto))
+
+            if (pg.bounds.Contains(punto))
+            {
+
+
+                controllo = mainCamera.WorldToViewportPoint(punto);
+
+                if (controllo.x > 0 && controllo.x < 1 && controllo.y > 0 && controllo.y < 1)
+                {
+                    Debug.Log(punto);
+                    return punto;
+
+                }
+            }
+            /*if (pg.OverlapPoint(punto))
             {
                 
                 controllo = mainCamera.WorldToViewportPoint(punto);
@@ -74,7 +93,7 @@ public class Spwaner : MonoBehaviour
                     return punto;
 
                 }
-            }
+            }*/
             n++;
         }
         Debug.Log("Ho riportato  il più vicino");
@@ -85,7 +104,10 @@ public class Spwaner : MonoBehaviour
 
     private void MineMaxXFromCollider()
     {
-        float attuale;
+        max_x = pg.bounds.max.x;
+        min_x = pg.bounds.min.x;
+        
+       /* float attuale;
         max_x = -1000000;
         min_x = 10000000;
         for (int i = 0; i < pg.points.Length; i++)
@@ -102,32 +124,34 @@ public class Spwaner : MonoBehaviour
         }
 
         min_x *= transform.localScale.x;
-        max_x *= transform.localScale.x;
+        max_x *= transform.localScale.x;*/
 
     }
 
     private void MineMaxYfromCollider()
     {
-        float attuale;
-        max_y = -1000000;
-        min_y = 10000000;
-        for (int i = 0; i < pg.points.Length; i++)
-        {
-            attuale = pg.points[i].y;
-            if (attuale < min_y)
-            {
-                min_y = attuale;
-            }
-            else if (attuale > max_y)
-            {
-                max_y = attuale;
-            }
-        }
+        max_z = pg.bounds.max.z;
+        min_z = pg.bounds.min.z;
+        /* float attuale;
+         max_z = -1000000;
+         min_z = 10000000;
+         for (int i = 0; i < pg.points.Length; i++)
+         {
+             attuale = pg.points[i].y;
+             if (attuale < min_z)
+             {
+                 min_z = attuale;
+             }
+             else if (attuale > max_z)
+             {
+                 max_z = attuale;
+             }
+         }
 
-        min_y *= transform.localScale.y;
-        max_y *= transform.localScale.y;
+         min_z *= transform.localScale.y;
+         max_z *= transform.localScale.y;
 
-
+         */
     }
-
+   
 }

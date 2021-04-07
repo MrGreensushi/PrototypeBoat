@@ -5,7 +5,7 @@ using UnityEngine;
 public abstract class Corpo : MonoBehaviour
 {
     public int vita;
-    protected Rigidbody2D rb2d;
+    protected Rigidbody rb2d;
     public float tempoinvulnerabile;
     public bool possosubire_danni=true;
     public int dannicorpoacorpo;
@@ -34,7 +34,7 @@ public abstract class Corpo : MonoBehaviour
         Destroy(this.gameObject);
     }
 
-    protected virtual void OnCollisionEnter2D(Collision2D collision)
+    protected virtual void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.GetComponent<Corpo>() != null)
         {

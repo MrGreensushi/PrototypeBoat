@@ -8,4 +8,10 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/SampleScene.unity
     guid: 2cda990e2423bbf4892e6590ba056729
+  - enabled: 1
+    path: Assets/Scenes/PrimoLivello.unity
+    guid: 971f554b778b3264292d2df9ab580ba8
+  - enabled: 1
+    path: Assets/Scenes/Bossprova.unity
+    guid: 28e35ab5bc971a14dbdcdd10c81b79e6
   m_configObjects: {}

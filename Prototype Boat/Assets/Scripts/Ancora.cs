@@ -7,7 +7,7 @@ public class Ancora : MonoBehaviour
     public float forzadiRottura;
     public float distanza;
    // public Rigidbody2D barca;
-   public Rigidbody2D barca;
+   public Rigidbody barca;
     [HideInInspector] public int adestra;
     private float disattuale;
     private float angolo;
@@ -31,9 +31,10 @@ public class Ancora : MonoBehaviour
             //accellerazione moto circolare uniformememnte accelerato
             barca.AddForce(-direzione * velperpendicolarecerchio * velperpendicolarecerchio / distanza);
             //elimino la componente parallela
-            barca.AddForce(-direzione * velparallela * 1.1f, ForceMode2D.Impulse);
+            barca.AddForce(-direzione * velparallela * 1.1f, ForceMode.Impulse);
             //aggiugno una forza torcete rispetto alla direzione della barca
-            barca.AddTorque(-Mathf.Sign(velperpendicolarecerchio) * 3*adestra);
+            barca.AddTorque(-Mathf.Sign(velperpendicolarecerchio) * 3*adestra
+                *transform.right);
 
         }
     }

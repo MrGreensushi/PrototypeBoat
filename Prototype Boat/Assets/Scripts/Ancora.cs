@@ -6,17 +6,18 @@ public class Ancora : MonoBehaviour
 {
     public float forzadiRottura;
     public float distanza;
-   // public Rigidbody2D barca;
    public Rigidbody barca;
     [HideInInspector] public int adestra;
-    private float disattuale;
+    /*private float disattuale;
     private float angolo;
     private float velperpendicolarecerchio;
     private float velparallela;
-
+    */
+    private bool attira;
 
     private void FixedUpdate()
     {
+        /*
         //distanza attuale tra nave e ancora
         disattuale = Mathf.Abs((barca.transform.position - transform.position).magnitude);
         if (disattuale >= distanza)
@@ -34,8 +35,29 @@ public class Ancora : MonoBehaviour
             barca.AddForce(-direzione * velparallela * 1.1f, ForceMode.Impulse);
             //aggiugno una forza torcete rispetto alla direzione della barca
             barca.AddTorque(-Mathf.Sign(velperpendicolarecerchio) * 3*adestra
-                *transform.right);
-
+                *transform.right);*/
+        if (attira)
+        {
+            Vector3 direzione = transform.position - barca.transform.position;
+            Vector3 applicazioneForza = barca.transform.position + barca.transform.forward * 2 + barca.transform.up;
+            barca.AddForceAtPosition(direzione * forzadiRottura, applicazioneForza);
+            Debug.DrawLine(applicazioneForza, applicazioneForza+direzione*forzadiRottura, Color.red, Time.fixedDeltaTime);
         }
+
     }
+    private void OnTriggerExit(Collider collision)
+    {
+        if (collision.GetComponent<Movimentonuovo>() != null)
+            attira = true;
+
+    }
+
+   void OnTriggerStay(Collider collision)
+    {
+
+        if (collision.GetComponent<Movimentonuovo>() != null)
+            attira =false;
+    }
+
+
 }

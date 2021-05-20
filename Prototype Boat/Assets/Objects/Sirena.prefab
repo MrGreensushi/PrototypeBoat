@@ -633,8 +633,8 @@ ParticleSystem:
     boxThickness: {x: 0, y: 0, z: 0}
     radiusThickness: 0
     donutRadius: 0.0001
-    m_Position: {x: 0, y: 0, z: 0}
-    m_Rotation: {x: 90, y: 180, z: 180}
+    m_Position: {x: 0, y: -5.3, z: 0}
+    m_Rotation: {x: 90, y: 0, z: 0}
     m_Scale: {x: 1, y: 1, z: 1}
     placementMode: 0
     m_MeshMaterialIndex: 0
@@ -4790,7 +4790,6 @@ GameObject:
   m_Component:
   - component: {fileID: 7919303416368529526}
   - component: {fileID: 1989316723433689246}
-  - component: {fileID: 5157267397034501156}
   - component: {fileID: 8554654216563571641}
   - component: {fileID: 5468038906467601499}
   - component: {fileID: 5249319538719252135}
@@ -4809,7 +4808,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4479099152859391020}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 5.68, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 3061291131233420277}
@@ -4832,26 +4831,6 @@ MonoBehaviour:
   tempoinvulnerabile: 0
   possosubire_danni: 1
   dannicorpoacorpo: 1
---- !u!250 &5157267397034501156
-PointEffector2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4479099152859391020}
-  m_Enabled: 0
-  m_UseColliderMask: 1
-  m_ColliderMask:
-    serializedVersion: 2
-    m_Bits: 512
-  m_ForceMagnitude: -10
-  m_ForceVariation: 0
-  m_DistanceScale: 1
-  m_ForceSource: 0
-  m_ForceTarget: 0
-  m_ForceMode: 0
-  m_Drag: 0
-  m_AngularDrag: 0
 --- !u!135 &8554654216563571641
 SphereCollider:
   m_ObjectHideFlags: 0

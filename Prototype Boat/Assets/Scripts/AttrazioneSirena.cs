@@ -12,7 +12,7 @@ public class AttrazioneSirena : MonoBehaviour
     protected ParticleSystem ps;
     protected bool devoMorire;
     private SphereCollider sc;
-    // Start is called before the first frame update
+  
     protected virtual void Start()
     {
         ps = GetComponentInChildren<ParticleSystem>();
@@ -34,8 +34,8 @@ public class AttrazioneSirena : MonoBehaviour
                     if (el != null)
                     {
                         dirOnda = Posizione() - el.transform.position;
-                        el.AddForce(dirOnda.normalized * forzaOnda);
-                        Debug.DrawLine(el.transform.position, el.transform.position + dirOnda, Color.red, Time.fixedDeltaTime);
+                        el.AddForceAtPosition(dirOnda.normalized * forzaOnda,el.transform.position+el.transform.forward*2+el.transform.up);
+                        Debug.DrawLine(el.transform.position + el.transform.forward*2 + el.transform.up, el.transform.position + dirOnda, Color.red, Time.fixedDeltaTime);
                     }
                     i++;
                 }
@@ -60,7 +60,7 @@ public class AttrazioneSirena : MonoBehaviour
    
    private Vector3 Posizione()
     {
-        return new Vector3(transform.position.x, 0, transform.position.z);
+        return new Vector3(transform.position.x, 1, transform.position.z);
     }
    
 

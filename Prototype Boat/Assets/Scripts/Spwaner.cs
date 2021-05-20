@@ -52,7 +52,7 @@ public class Spwaner : MonoBehaviour
         while (puoiSpawnare)
         {
             Instantiate(toSpawn, DoveSpawnare(), Quaternion.Euler(direzione));
-            yield return new WaitForSeconds(tempoDiSpawn);
+            yield return new WaitForSeconds(tempoDiSpawn+ Random.Range(-0.5f,0.5f));
         }
     }
 

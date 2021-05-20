@@ -24,6 +24,7 @@ public class Movimentonuovo : Corpo
     private Sparare cannone;
     private bool possoAttivareVela;
     private ParticleSystem particelleDanni;
+    private SpringJoint sprjoint;
 
    
     protected override void Start()
@@ -35,6 +36,10 @@ public class Movimentonuovo : Corpo
         maincamera = GameObject.FindObjectOfType<Camera>();
         base.Start();
         particelleDanni = GetComponentInChildren<ParticleSystem>();
+
+        sprjoint = GetComponent<SpringJoint>();
+        sprjoint.spring = 0;
+        sprjoint.damper = 0;
     }
 
    
@@ -124,23 +129,42 @@ public class Movimentonuovo : Corpo
     }
     private void InizializzaAncora(int adestra)
     {
-       
+        /*
+         if (ancora == null)
+         {
+
+             ancora = Instantiate(ancoraPrefab, adestra * rb2d.transform.right * distanzaAncora + rb2d.transform.position, Quaternion.identity);
+             ancora.GetComponent<Ancora>().barca=rb2d;
+             rb2d.drag /= 2;
+             ancora.GetComponent<Ancora>().adestra = adestra;
+         }
+         else
+         {
+             if (ancora != null)
+             {
+                 rb2d.drag *= 2;
+                 Destroy(ancora.gameObject);
+             }
+         }*/
         if (ancora == null)
         {
-
-            ancora = Instantiate(ancoraPrefab, adestra * rb2d.transform.up * distanzaAncora + rb2d.transform.position, Quaternion.identity);
-            ancora.GetComponent<Ancora>().barca=rb2d;
-            rb2d.drag /= 2;
-            ancora.GetComponent<Ancora>().adestra = adestra;
+            Vector3 pos = adestra * rb2d.transform.right * distanzaAncora + rb2d.transform.position;
+            ancora = Instantiate(ancoraPrefab,pos, Quaternion.identity);
+            sprjoint.connectedBody=ancora.GetComponent<Rigidbody>();
+            sprjoint.spring = 10;
+            sprjoint.damper = 1;
         }
         else
         {
             if (ancora != null)
             {
-                rb2d.drag *= 2;
+                sprjoint.connectedBody = null;
+                sprjoint.spring = 0;
+                sprjoint.damper = 0;
                 Destroy(ancora.gameObject);
             }
         }
+
     }
 
     protected override void ComeSubiscoDanni(int danni)

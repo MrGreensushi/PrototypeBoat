@@ -25,8 +25,11 @@ public class Sparare : MonoBehaviour
             proiettile.GetComponent<Proiettile>().direzione = direzione;
             oggettoInstanziato = Instantiate(proiettile, puntoDiPartenza, Quaternion.identity);
             oggettoInstanziato.GetComponent<Proiettile>().TempoPrimaDiMorire = tempoProiettili;
-           // oggettoInstanziato.GetComponent<Rigidbody>().AddForce(GetComponent<Rigidbody>().velocity);
-
+            // oggettoInstanziato.GetComponent<Rigidbody>().AddForce(GetComponent<Rigidbody>().velocity);
+            
+            //add inertia
+            oggettoInstanziato.GetComponent<Rigidbody>().velocity=GetComponent<Rigidbody>().velocity;
+          
             gameObject.GetComponent<Rigidbody>().AddForce(-rinculo * direzione, ForceMode.Impulse);
             carico = false;
             StartCoroutine(Ricarica());
@@ -37,6 +40,11 @@ public class Sparare : MonoBehaviour
     {
         yield return new WaitForSeconds(tempoRicarica);
         carico = true;
+    }
+
+    public bool getRicarica()
+    {
+        return carico;
     }
 
 }

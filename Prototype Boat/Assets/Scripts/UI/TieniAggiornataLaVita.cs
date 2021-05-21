@@ -21,12 +21,12 @@ public class TieniAggiornataLaVita : MonoBehaviour
             vita[i].rectTransform.localPosition = new Vector3(-380+i*30,200);
         }
     }
-    // Update is called once per frame
-    void Update()
+    
+    public void AggiornaVita(int vitaTot)
     {
         for(int i = 0; i < vita.Length; i++)
         {
-            if (giocatore.vita >= i+1)
+            if (vitaTot >= i+1)
             {
                 vita[i].enabled = true ;
             }

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+
 public class Movimentonuovo : Corpo
 {
     public float[] costantiTelecamera;
@@ -21,16 +22,23 @@ public class Movimentonuovo : Corpo
     private float velocitaX;
     private float angoloInRadianti;
     private GameObject ancora;
-    private Sparare cannone;
+    private Sparare cannoneDestro;
+    private Sparare cannoneSinistro;
     private bool possoAttivareVela;
     private ParticleSystem particelleDanni;
     private SpringJoint sprjoint;
-
+    private TieniAggiornataLaVita uiVita;
+    private AggiornatoCooldownAttacco uiAttacco;
+   
    
     protected override void Start()
     {
+        uiAttacco = FindObjectOfType<AggiornatoCooldownAttacco>();
+        uiVita = FindObjectOfType<TieniAggiornataLaVita>();
         possoAttivareVela = true;
-        cannone = this.GetComponent<Sparare>();
+        cannoneDestro = this.GetComponents<Sparare>()[0];
+        cannoneSinistro = this.GetComponents<Sparare>()[1];
+        uiAttacco.setCannoni(cannoneDestro, cannoneSinistro);
         rb2d = this.GetComponent<Rigidbody>();
         pc2d = this.GetComponent<MeshCollider>();
         maincamera = GameObject.FindObjectOfType<Camera>();
@@ -58,11 +66,20 @@ public class Movimentonuovo : Corpo
         }
         if (Input.GetKeyDown(KeyCode.RightArrow))
         {
-            cannone.Spara(transform.right, transform.position+transform.right*2 + transform.up * 0.5f);
+            if (cannoneDestro.getRicarica())
+            {
+                uiAttacco.iniziaContare(true);
+            }
+            cannoneDestro.Spara(transform.right, transform.position+transform.right*2 + transform.up * 0.5f);
+
         }
         if (Input.GetKeyDown(KeyCode.LeftArrow))
         {
-            cannone.Spara(-transform.right, transform.position - transform.right * 2 + transform.up * 0.5f);
+            if (cannoneSinistro.getRicarica())
+            {
+                uiAttacco.iniziaContare(false);
+            }
+            cannoneSinistro.Spara(-transform.right, transform.position - transform.right * 2 + transform.up * 0.5f);
         }
 
     }
@@ -171,6 +188,8 @@ public class Movimentonuovo : Corpo
     {
         particelleDanni.Play();
         vita -= danni;
+        uiVita.AggiornaVita(vita);
+
     }
 
     public void BloccoAlleVelePerXSecondi(float tempo)
@@ -191,5 +210,15 @@ public class Movimentonuovo : Corpo
         /*maincamera.transform.position =transform.position+ this.transform.forward * costantiTelecamera[2] + transform.right * costantiTelecamera[0] + transform.up * costantiTelecamera[1];
         maincamera.transform.rotation = Quaternion.Euler(maincamera.transform.rotation.eulerAngles.x, transform.rotation.eulerAngles.y, 0);*/
         maincamera.transform.position =transform.position-new Vector3(0,0,1) * 31.75f + new Vector3(0,1,0) * 55;
+    }
+
+    public Sparare getCannoneDestro()
+    {
+        return cannoneDestro;
+    }
+
+    public Sparare getCannoneSinistro()
+    {
+        return cannoneSinistro;
     }
 }

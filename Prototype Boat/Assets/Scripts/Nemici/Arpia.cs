@@ -6,7 +6,7 @@ public class Arpia : Corpo
 {
     public GameObject bersaglio;
     public float velocita;
-    private MeshCollider bx;
+   
     public float tempoPrimaDiDistacco;
     public float tempoBloccoVele;
     private int temp;
@@ -14,13 +14,13 @@ public class Arpia : Corpo
     private Vector3 punto;
     private SphereCollider c2d;
     private float puntoz, puntox;
-   
+    
 
     protected override void Start()
     {
         rb2d = GetComponent<Rigidbody>();
         c2d = GetComponent<SphereCollider>();
-        bx = GetComponent<MeshCollider>();
+       
     }
     protected override void ComeSubiscoDanni(int danni)
     {
@@ -70,7 +70,7 @@ public class Arpia : Corpo
                 bersaglio = collision.gameObject;
 
         }
-        else if(collision.gameObject==bersaglio && !sonoSullaNAve)
+        /*else if(collision.gameObject==bersaglio && !sonoSullaNAve)
         {
            
             punto = (transform.position - bersaglio.transform.position);
@@ -80,7 +80,7 @@ public class Arpia : Corpo
             bersaglio.GetComponent<Corpo>().SubiscoDanni(dannicorpoacorpo);
             bersaglio.GetComponent<Movimentonuovo>().BloccoAlleVelePerXSecondi(tempoBloccoVele); 
             StartCoroutine(StosullaNabve());
-        }
+        }*/
     }
 
     private void OnTriggerExit(Collider collision)
@@ -96,7 +96,22 @@ public class Arpia : Corpo
                 
         }
     }
-   
+
+    override protected void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject == bersaglio && !sonoSullaNAve)
+        {
+
+            punto = (transform.position - bersaglio.transform.position);
+            puntox = Vector3.Dot(punto, bersaglio.transform.right);
+            puntoz = Vector3.Dot(punto, bersaglio.transform.forward);
+
+            bersaglio.GetComponent<Corpo>().SubiscoDanni(dannicorpoacorpo);
+            bersaglio.GetComponent<Movimentonuovo>().BloccoAlleVelePerXSecondi(tempoBloccoVele);
+            StartCoroutine(StosullaNabve());
+        }
+    }
+
 
     IEnumerator StosullaNabve()
     {

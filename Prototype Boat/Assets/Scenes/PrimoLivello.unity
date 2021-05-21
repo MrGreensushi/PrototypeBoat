@@ -202,7 +202,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1682313294842592833, guid: ce7d227ade0a31e499dc8a5b931cc15e, type: 3}
       propertyPath: tempoRicarica
-      value: 1
+      value: 0.3
       objectReference: {fileID: 0}
     - target: {fileID: 4193710360127670717, guid: ce7d227ade0a31e499dc8a5b931cc15e, type: 3}
       propertyPath: m_UseGravity
@@ -649,6 +649,7 @@ GameObject:
   m_Component:
   - component: {fileID: 404227129}
   - component: {fileID: 404227128}
+  - component: {fileID: 404227130}
   m_Layer: 0
   m_Name: UiManager
   m_TagString: Untagged
@@ -684,6 +685,21 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &404227130
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 404227127}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 460364bdf608a5e4cbc1e243f12ac6ee, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  immaginesingola:
+  - {fileID: 6159097073959493355, guid: 03888668315f2ff41b9b097bd1bbfb32, type: 3}
+  - {fileID: 3871201782545526247, guid: e8386fd2c0bda97449c03648f9c383e4, type: 3}
 --- !u!1 &420627531
 GameObject:
   m_ObjectHideFlags: 0
@@ -1462,7 +1478,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1670938650
 Transform:
   m_ObjectHideFlags: 0
@@ -1471,7 +1487,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1670938649}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -4.175689, y: 0, z: 14.23}
+  m_LocalPosition: {x: 114, y: 0, z: -311}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1574633435}

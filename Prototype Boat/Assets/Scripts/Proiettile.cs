@@ -14,7 +14,10 @@ public class Proiettile : MonoBehaviour
     {
         tempo = Time.time;
         rb = GetComponent<Rigidbody>();
-        rb.velocity = direzione * velocity;
+        if(rb.velocity!=null)
+            rb.velocity += direzione * velocity;
+        else
+            rb.velocity = direzione * velocity;
 
     }
     private void FixedUpdate()
@@ -58,5 +61,11 @@ public class Proiettile : MonoBehaviour
                     Destroy(gameObject);
                 }
         }
+    }
+
+    public void addVelocita(Vector3 vector)
+    {
+        rb.velocity += vector;
+
     }
 }

@@ -28,7 +28,7 @@ public class Sparare : MonoBehaviour
             // oggettoInstanziato.GetComponent<Rigidbody>().AddForce(GetComponent<Rigidbody>().velocity);
             
             //add inertia
-            oggettoInstanziato.GetComponent<Rigidbody>().velocity=GetComponent<Rigidbody>().velocity;
+            oggettoInstanziato.GetComponent<Rigidbody>().velocity+=GetComponent<Rigidbody>().velocity;
           
             gameObject.GetComponent<Rigidbody>().AddForce(-rinculo * direzione, ForceMode.Impulse);
             carico = false;

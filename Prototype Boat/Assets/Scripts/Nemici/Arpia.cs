@@ -43,7 +43,9 @@ public class Arpia : Corpo
     }
     protected void ComemiMuovo()
     {
-        transform.position = Vector3.MoveTowards(transform.position, bersaglio.transform.position, velocita * Time.deltaTime);
+        Vector3 nextStep = Vector3.MoveTowards(transform.position, bersaglio.transform.position, velocita * Time.deltaTime);
+        // transform.position = new Vector3(nextStep.x, yposition(nextStep), nextStep.z);
+        transform.position =nextStep;
     }
 
     protected void GuardoBersaglio()
@@ -124,5 +126,40 @@ public class Arpia : Corpo
         transform.position = transform.position - bersaglio.transform.forward * 5;
         possosubire_danni = true;
         dannicorpoacorpo = temp;
+    }
+
+    private Vector3 yposition( Vector3 nextstep)
+    {
+        /*float maxy = 0;
+        Vector3 position = new Vector3(nextstep.x,40,nextstep.z);
+        RaycastHit[] colpito;
+        Debug.DrawRay(position, -Vector3.up*50, Color.red);
+        colpito=Physics.RaycastAll(position, -Vector3.up*50);
+        foreach(RaycastHit toCheck in colpito){
+            if (toCheck.point.y > maxy && !toCheck.collider.isTrigger)
+            {
+                if (toCheck.collider.gameObject.name != "Arpia")
+                {
+                    maxy = toCheck.point.y;
+                    Debug.Log(toCheck.collider.gameObject.name);
+                }
+                
+            }
+               
+        }
+        Debug.Log(maxy);*/
+        RaycastHit[] colpito;
+        Vector3 position =this.transform.position;
+        Vector3 newNext = nextstep;
+        //Debug.DrawRay(position, nextstep.normalized, Color.red);
+        colpito = Physics.RaycastAll(position, nextstep);
+         
+        while (colpito.Length != 0)
+        {
+            newNext = newNext + Vector3.up * 0.1f;
+            colpito = Physics.RaycastAll(position, nextstep);
+        }
+
+        return newNext;
     }
 }

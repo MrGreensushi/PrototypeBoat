@@ -29,7 +29,8 @@ public class Movimentonuovo : Corpo
     private SpringJoint sprjoint;
     private TieniAggiornataLaVita uiVita;
     private AggiornatoCooldownAttacco uiAttacco;
-   
+  
+    private Animator animator;
    
     protected override void Start()
     {
@@ -48,6 +49,7 @@ public class Movimentonuovo : Corpo
         sprjoint = GetComponent<SpringJoint>();
         sprjoint.spring = 0;
         sprjoint.damper = 0;
+        animator = GetComponentInChildren<Animator>();
     }
 
    
@@ -95,16 +97,19 @@ public class Movimentonuovo : Corpo
         {
           
            rb2d.MoveRotation(Quaternion.Euler(transform.rotation.x, rb2d.rotation.eulerAngles.y - rotazione, transform.rotation.z)) ;
-   
+            animator.SetBool("Premo S", true);
         }
         else
         {//altrimenti se ho premuto il tasto D
+            animator.SetBool("Premo S", false);
             if (Input.GetKey(KeyCode.D))
             {
 
                 rb2d.MoveRotation(Quaternion.Euler(transform.rotation.x, rb2d.rotation.eulerAngles.y + rotazione, transform.rotation.z));
+                animator.SetBool("Premo D", true);
                // rb2d.rotation -= rotazione;
-            }
+            }else
+                animator.SetBool("Premo D", false);
         }
 
         forzaFrontale = new Vector3(0, 0, 0);

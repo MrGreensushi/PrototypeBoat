@@ -1,2 +1,2 @@
 # PrototypeBoat
-Videogame about a boat
+A Videogame about a nifty boat
